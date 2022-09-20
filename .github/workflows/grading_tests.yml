@@ -5,6 +5,7 @@ on:
     inputs:
       tests_url:
         description: 'Public URL for Python unit tests'
+        type: string
         required: true
 
 jobs:
