@@ -24,8 +24,11 @@ jobs:
       shell: bash
       run: |
         # Download grading tests
-        echo "Downloading grading tests: $LAB_TEST_FILE_URL"
+        echo "Downloading grading tests from:"
+        echo "$LAB_TEST_FILE_URL"
+        echo ""
         curl "$LAB_TEST_FILE_URL" -o test_for_grading.py
+        echo ""
         echo "Test files:"
         ls -l test*.py
     - id: setup-python
