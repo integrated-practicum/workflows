@@ -30,7 +30,7 @@ jobs:
         curl "$LAB_TEST_FILE_URL" -o test_for_grading.py
         echo ""
         echo "Test files:"
-        ls -l test*.py
+        ls -l test*
     - id: setup-python
       name: Set up Python
       uses: actions/setup-python@v3
