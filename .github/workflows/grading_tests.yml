@@ -10,7 +10,7 @@ on:
 
 jobs:
   grading-tests-comp-880:
-
+    name: Grading Tests for COMP-880
     runs-on: ubuntu-latest
 
     steps:
