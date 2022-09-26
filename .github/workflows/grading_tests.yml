@@ -3,7 +3,7 @@ name: Grading Tests for COMP-880
 on:
   workflow_call:
     inputs:
-      tests_url:
+      grading_tests_url:
         description: 'Public URL for Python unit tests'
         type: string
         required: true
@@ -20,17 +20,18 @@ jobs:
     - id: download-grading-tests
       name: Download grading tests from public URL
       env:
-        LAB_TEST_FILE_URL: ${{ inputs.tests_url }}
+        GRADING_TESTS_URL: ${{ inputs.grading_tests_url }}
       shell: bash
       run: |
         # Download grading tests
+        mkdir grading_tests
         echo "Downloading grading tests from:"
-        echo "$LAB_TEST_FILE_URL"
+        echo "$GRADING_TESTS_URL"
         echo ""
-        curl "$LAB_TEST_FILE_URL" -o test_for_grading.py
+        curl "$GRADING_TESTS_URL" -o grading_tests/grading_tests.py
         echo ""
         echo "Test files:"
-        ls -l test*
+        ls -l grading_tests
     - id: setup-python
       name: Set up Python
       uses: actions/setup-python@v3
@@ -43,8 +44,7 @@ jobs:
       run: |
         # Install dependencies (globally on the GitHub Actions runner)
         python -m pip install --upgrade pip
-        python -m pip install flake8 pep8-naming flake8-variables-names flake8-docstrings pytest
-        flake8 --version
+        python -m pip install pytest
         pytest -V
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - id: test
@@ -52,4 +52,4 @@ jobs:
       shell: bash
       run: |
         # Run tests
-        python -m unittest test_for_grading.py
+        python -m unittest discover grading_tests
