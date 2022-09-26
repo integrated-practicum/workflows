@@ -3,7 +3,7 @@ name: Grading Tests for COMP-880
 on:
   workflow_call:
     inputs:
-      grading_tests_url:
+      tests_url:
         description: 'Public URL for Python unit tests'
         type: string
         required: true
@@ -20,15 +20,15 @@ jobs:
     - id: download-grading-tests
       name: Download grading tests from public URL
       env:
-        GRADING_TESTS_URL: ${{ inputs.grading_tests_url }}
+        TESTS_URL: ${{ inputs.tests_url }}
       shell: bash
       run: |
         # Download grading tests
         mkdir grading_tests
         echo "Downloading grading tests from:"
-        echo "$GRADING_TESTS_URL"
+        echo "$TESTS_URL"
         echo ""
-        curl "$GRADING_TESTS_URL" -o grading_tests/grading_tests.py
+        curl "$TESTS_URL" -o grading_tests/grading_tests.py
         echo ""
         echo "Test files:"
         ls -l grading_tests
