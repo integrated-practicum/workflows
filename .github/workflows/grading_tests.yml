@@ -30,6 +30,7 @@ jobs:
         echo ""
         curl "$TESTS_URL" -o grading_tests/grading_tests.py
         echo ""
+        touch grading_tests/__init__.py
         echo "Test files:"
         ls -l grading_tests
     - id: setup-python
