@@ -76,7 +76,7 @@ jobs:
       shell: bash
       run: |
         # Lint Python code
-        flake8 . --extend-ignore=D,N --show-source --count --max-complexity=10 --max-line-length=79
+        flake8 . --extend-ignore=D,VNE,N --show-source --count --max-complexity=10 --max-line-length=79
     - id: lint-pep-8
       name: Check for PEP-8 naming conventions
       continue-on-error: true
