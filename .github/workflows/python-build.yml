@@ -60,7 +60,7 @@ jobs:
       run: |
         # Run unit tests
         if [[ -d "tests" ]];
-          then python -m unittest discover tests;
+          then python -m unittest discover -v tests;
           else echo "No tests run.";
         fi
     - id: run
