@@ -76,21 +76,21 @@ jobs:
       shell: bash
       run: |
         # Check Python code formatting
-        flake8 apps --extend-ignore=D,VNE,N --show-source --count --max-complexity=10 --max-line-length=79
+        flake8 src --extend-ignore=D,VNE,N --show-source --count --max-complexity=10 --max-line-length=79
     - id: lint-pep-8
       name: Check for PEP-8 naming conventions
       continue-on-error: true
       shell: bash
       run: |
         # Check PEP-8 naming
-        flake8 apps --extend-ignore=D,F,E,W --show-source --count --max-complexity=10 --max-line-length=79
+        flake8 src --extend-ignore=D,F,E,W --show-source --count --max-complexity=10 --max-line-length=79
     - id: lint-docstrings
       name: Check for PEP-257 docstring conventions
       continue-on-error: true
       shell: bash
       run: |
         # Check docstrings
-        flake8 apps --extend-ignore=D212,VNE,N,F,E,W --show-source --count --max-complexity=10 --max-line-length=79
+        flake8 src --extend-ignore=D212,VNE,N,F,E,W --show-source --count --max-complexity=10 --max-line-length=79
     - id: summary-report
       name: Summary of checks
       shell: bash
