@@ -15,6 +15,12 @@ jobs:
       with:
         # Get complete history so we can see the log
         fetch-depth: 0
+    - id: ensure-requirements
+      name: Ensure that there is a requirements.txt
+      shell: bash
+      run: |
+        # Create requirements.txt if it does not exist
+        touch requirements.txt
     - id: setup-python
       name: Set up Python
       uses: actions/setup-python@v4
@@ -31,7 +37,7 @@ jobs:
         python -m pip install flake8 pep8-naming flake8-variables-names flake8-docstrings pytest
         flake8 --version
         pytest -V
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip install -r requirements.txt
     - id: show-git-log
       name: Show git commit log
       shell: bash
