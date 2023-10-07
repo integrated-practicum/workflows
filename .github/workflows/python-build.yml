@@ -1,11 +1,11 @@
-name: Python Build for COMP-880
+name: Python Build for COMP-801
 
 on:
   workflow_call:
 
 jobs:
-  python-build-comp-880:
-    name: Python Build for COMP-880
+  python-build-comp-801:
+    name: Python Build for COMP-801
     runs-on: ubuntu-latest
 
     steps:
@@ -17,15 +17,16 @@ jobs:
         fetch-depth: 0
     - id: setup-python
       name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
-        python-version: "3.10"
+        python-version: ">=3.12"
         cache: 'pip'
     - id: install-dependencies
       name: Install dependencies
       shell: bash
       run: |
         # Install dependencies (globally on the GitHub Actions runner)
+        echo '${{ steps.setup-python.outputs.python-version }}'
         python -m pip install --upgrade pip
         python -m pip install flake8 pep8-naming flake8-variables-names flake8-docstrings pytest
         flake8 --version
@@ -48,11 +49,11 @@ jobs:
         && echo "Design file is present." \
         || exit 1
     - id: compile
-      name: Compile all files
+      name: Compile all source and test files
       shell: bash
       run: |
         # Compile all files
-        python -m compileall . -l
+        python -m compileall src/ tests/
     - id: test
       name: Run unit tests
       shell: bash
@@ -60,7 +61,7 @@ jobs:
       run: |
         # Run unit tests
         if [[ -d "tests" ]];
-          then python -m unittest discover -v tests;
+          then python -m pytest -v;
           else echo "No tests run.";
         fi
     - id: run
@@ -68,8 +69,22 @@ jobs:
       shell: bash
       continue-on-error: true
       run: |
+        # Create script to run all Python code
+        echo '#!/usr/bin/env python' > run_all_src.py
+        echo 'import os' >> run_all_src.py
+        echo 'import subprocess' >> run_all_src.py
+        echo '' >> run_all_src.py
+        echo "src_dir = 'src'" >> run_all_src.py
+        echo '' >> run_all_src.py
+        echo 'for root, dirs, files in os.walk(src_dir):' >> run_all_src.py
+        echo '    for file in files:' >> run_all_src.py
+        echo '        if file.endswith(".py"):' >> run_all_src.py
+        echo '            script_path = os.path.join(root, file)' >> run_all_src.py
+        echo '            print(f"Running {script_path}")' >> run_all_src.py
+        echo '            subprocess.run(["python", script_path])' >> run_all_src.py
+        chmod +x run_all_src.py
         # Run all Python code to see output
-        for f in *.py; do python "$f"; done
+        python run_all_src.py
     - id: lint-code
       name: Check Python code formatting
       continue-on-error: true

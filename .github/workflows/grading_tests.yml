@@ -1,4 +1,4 @@
-name: Grading Tests for COMP-880
+name: Grading Tests for COMP-801
 
 on:
   workflow_call:
@@ -9,8 +9,8 @@ on:
         required: true
 
 jobs:
-  grading-tests-comp-880:
-    name: Grading Tests for COMP-880
+  grading-tests-comp-801:
+    name: Grading Tests for COMP-801
     runs-on: ubuntu-latest
 
     steps:
